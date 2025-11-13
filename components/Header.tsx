@@ -1,31 +1,39 @@
-
 import React, { useState } from 'react';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+    onNavigateHome: () => void;
+    onNavigateCategory: (categoryName: string) => void;
+}
+
+const Header: React.FC<HeaderProps> = ({ onNavigateHome, onNavigateCategory }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const navLinks = [
-        { href: '#', label: 'Trang Chủ' },
-        { href: '#', label: 'Tiểu Đường' },
-        { href: '#', label: 'Huyết Áp' },
-        { href: '#', label: 'Dinh Dưỡng' },
-        { href: '#', label: 'Liên Hệ' },
+        { label: 'Trang Chủ', action: onNavigateHome },
+        { label: 'Tiểu Đường', action: () => onNavigateCategory('Tiểu Đường') },
+        { label: 'Huyết Áp', action: () => onNavigateCategory('Huyết Áp') },
+        { label: 'Sức Khỏe Chung', action: () => onNavigateCategory('Sức Khỏe Chung') },
     ];
+
+    const handleLinkClick = (action: () => void) => {
+        action();
+        setIsMenuOpen(false); // Close menu on navigation
+    };
 
     return (
         <header className="bg-white/80 backdrop-blur-lg shadow-md sticky top-0 z-50">
             <div className="container mx-auto px-6 py-4">
                 <div className="flex items-center justify-between">
-                    <a href="#" className="text-2xl font-bold text-teal-600">
+                    <button onClick={onNavigateHome} className="text-2xl font-bold text-teal-600">
                         Khoẻ Lên
-                    </a>
+                    </button>
 
                     {/* Desktop Menu */}
                     <nav className="hidden md:flex items-center space-x-6">
                         {navLinks.map((link) => (
-                            <a key={link.label} href={link.href} className="text-gray-600 hover:text-teal-600 transition-colors duration-300 font-medium">
+                            <button key={link.label} onClick={link.action} className="text-gray-600 hover:text-teal-600 transition-colors duration-300 font-medium">
                                 {link.label}
-                            </a>
+                            </button>
                         ))}
                     </nav>
 
@@ -44,9 +52,9 @@ const Header: React.FC = () => {
                     <div className="md:hidden mt-4">
                         <nav className="flex flex-col space-y-2">
                             {navLinks.map((link) => (
-                                <a key={link.label} href={link.href} className="text-gray-600 hover:text-teal-600 transition-colors duration-300 py-2 px-3 rounded-md hover:bg-gray-100">
+                                <button key={link.label} onClick={() => handleLinkClick(link.action)} className="text-left text-gray-600 hover:text-teal-600 transition-colors duration-300 py-2 px-3 rounded-md hover:bg-gray-100">
                                     {link.label}
-                                </a>
+                                </button>
                             ))}
                         </nav>
                     </div>

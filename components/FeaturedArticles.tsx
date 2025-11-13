@@ -1,9 +1,12 @@
-
 import React from 'react';
 import { MOCK_ARTICLES } from '../constants';
 import ArticleCard from './ArticleCard';
 
-const FeaturedArticles: React.FC = () => {
+interface FeaturedArticlesProps {
+    onSelectArticle: (id: number) => void;
+}
+
+const FeaturedArticles: React.FC<FeaturedArticlesProps> = ({ onSelectArticle }) => {
     return (
         <section className="py-16 md:py-24 bg-white">
             <div className="container mx-auto px-6">
@@ -15,7 +18,7 @@ const FeaturedArticles: React.FC = () => {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {MOCK_ARTICLES.map((article) => (
-                        <ArticleCard key={article.id} article={article} />
+                        <ArticleCard key={article.id} article={article} onSelect={onSelectArticle} />
                     ))}
                 </div>
             </div>

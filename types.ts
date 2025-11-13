@@ -1,4 +1,3 @@
-
 export interface Article {
   id: number;
   title: string;
@@ -6,4 +5,5 @@ export interface Article {
   imageUrl: string;
   category: string;
   categoryColor: string;
+  content: string; // Detailed content for the article page
 }
